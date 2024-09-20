@@ -10,7 +10,7 @@ This is currently WIP, and doesn't do much.
 This project uses CMake, so you need to have that installed.
 
 ### Test application
-This is setup to compile with the engine dynamically for development purposes.
+This is set up to compile with the engine dynamically for development purposes.
 
 ```
 cd Test-Application
