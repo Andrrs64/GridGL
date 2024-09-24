@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.30.2)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
@@ -13,10 +13,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/build)
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-file(GLOB_RECURSE SRC_FILES
-    ${PROJECT_SOURCE_DIR}/src/*.cpp
-    ${PROJECT_SOURCE_DIR}../GridGL-engine/src/*.cpp
+set(SRC_DIRS
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/../GridGL-engine/src
 )
+
+set(SRC_FILES)
+
+foreach(dir ${SRC_DIRS})
+    file(GLOB_RECURSE CPP_FILES "${dir}/*.cpp")
+    list(APPEND SRC_FILES ${CPP_FILES})
+endforeach()
 
 message(SRC_FILES="${SRC_FILES}")
 
@@ -25,6 +32,7 @@ target_include_directories("${PROJECT_NAME}" PUBLIC
     "${PROJECT_SOURCE_DIR}/src"
     "${PROJECT_SOURCE_DIR}/dependencies/include"
     "${PROJECT_SOURCE_DIR}/../GridGL-engine/dependencies/include"
+    "${PROJECT_SOURCE_DIR}/../GridGL-engine/src"
 )
 
 add_library(glad STATIC "${PROJECT_SOURCE_DIR}/../GridGl-engine/dependencies/library/glad.c")

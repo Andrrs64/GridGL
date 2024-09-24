@@ -2,11 +2,14 @@
 #include <GLFW/glfw3.h>
 #include <functional>
 
-void InputService::mapMethod(unsigned int glfwButton, std::function<void()> method) {
+void ggl::InputService::mapMethod(
+    unsigned int glfwButton,
+    std::function<void()> method
+) {
     mappings[glfwButton] = method;
 }
 
-void InputService::processInput(GLFWwindow* window) {
+void ggl::InputService::processInput(GLFWwindow* window) {
     for (auto& pair : mappings) {
         if (glfwGetKey(window, pair.first) == GLFW_PRESS) {
             pair.second();
