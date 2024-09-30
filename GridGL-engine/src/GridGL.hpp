@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <vector>
 #include <glm/glm.hpp>
+#include <string>
 
 namespace ggl {
 
@@ -25,6 +26,9 @@ struct Enviroment {
 
     std::vector<Tile> tileTypes;
     std::unordered_map<int, std::unordered_map<int, int>> tiles;
+
+    std::vector<float> vertices;
+    std::vector<int> indicies;
 };
 
 struct Game {
@@ -44,6 +48,8 @@ struct Game {
     GLFWwindow* window_ptr;
 
     InputService input_service;
+
+    std::string currentEnviroment;
 
     std::unordered_map<std::string, unsigned int> textures;
     std::unordered_map<std::string, Enviroment> enviroments;

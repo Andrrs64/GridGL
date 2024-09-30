@@ -1,5 +1,4 @@
 #include <GridGL.hpp>
-#include <algorithm>
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -9,22 +8,63 @@ ggl::Enviroment::Enviroment(
 ) {
     tileTypes = _tileTypes;
     tiles = _tiles;
-    int arrSize = 0;
-    std::vector<float> items;
 
     for (auto& column : tiles) {
-        int x = column.first;
+        const int x = column.first;
         
         for (auto& pair : column.second) {
-            int y = pair.first;
+            const int z = pair.first;
             Tile type = tileTypes[pair.second];
 
-            // TODO: Generate triangles from x, y and type
+            vertices.insert(vertices.end(), {
+                x + 0.5f,
+                type.height,
+                z + 0.5f,
+
+                type.textureCoords[0].x,
+                type.textureCoords[0].y
+            });
+
+            vertices.insert(vertices.end(), {
+                x + 0.5f,
+                type.height,
+                z - 0.5f,
+
+                type.textureCoords[1].x,
+                type.textureCoords[1].y
+            });
+
+            vertices.insert(vertices.end(), {
+                x - 0.5f,
+                type.height,
+                z - 0.5f,
+
+                type.textureCoords[2].x,
+                type.textureCoords[2].y
+            });
+
+            vertices.insert(vertices.end(), {
+                x - 0.5f,
+                type.height,
+                z + 0.5f,
+
+                type.textureCoords[2].x,
+                type.textureCoords[2].y
+            });
+
+            int iOffset = (vertices.size() / 5) - 4;
+
+            indicies.insert(indicies.end(), {
+                iOffset,
+                iOffset + 1,
+                iOffset + 2,
+
+                iOffset,
+                iOffset + 3,
+                iOffset + 2
+            });
         }
     }
-
-    positionData = new float[arrSize];
-    std::copy(items.begin(), items.end(), positionData);
 }
 
 ggl::Enviroment::~Enviroment() {
